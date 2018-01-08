@@ -172,6 +172,27 @@ void RCSwitch::switchOff(char* sGroup, int nChannel) {
 }
 
 /**
+ * Switch a remote switch on (Type A with 10 pole DIP switches)
+ *
+ * @param sGroup        Code of the switch group (refers to DIP switches 1..5 where "1" = on and "0" = off, if all DIP switches are on it's "11111")
+ * @param nChannelCode  Like sGroup with all DIP switches on it's "11111"
+ */
+void RCSwitch::switchOn(char* sGroup, char* nChannel) {
+  this->sendTriState( this->getCodeWordA(sGroup, nChannel, true) );
+}
+
+/**
+ * Switch a remote switch off (Type A with 10 pole DIP switches)
+ *
+ * @param sGroup        Code of the switch group (refers to DIP switches 1..5 where "1" = on and "0" = off, if all DIP switches are on it's "11111")
+ * @param nChannelCode  Like sGroup with all DIP switches on it's "11111"
+ */
+void RCSwitch::switchOff(char* sGroup, char* nChannel) {
+  this->sendTriState( this->getCodeWordA(sGroup, nChannel, false) );
+}
+
+
+/**
  * Returns a char[13], representing the Code Word to be send.
  * A Code Word consists of 9 address bits, 3 data bits and one sync bit but in our case only the first 8 address bits and the last 2 data bits were used.
  * A Code Bit can have 4 different states: "F" (floating), "0" (low), "1" (high), "S" (synchronous bit)
@@ -255,6 +276,48 @@ char* RCSwitch::getCodeWordA(char* sGroup, int nChannelCode, boolean bStatus) {
   }
   sReturn[nReturnPos] = '\0';
 
+  return sReturn;
+}
+
+
+/**
+ *  * Like getCodeWord  (Type A) for 10 Dip
+ *   */
+char* RCSwitch::getCodeWordA(char* sGroup, char* nChannelCode, boolean bStatus) {
+  int nReturnPos = 0;
+  static char sReturn[13];
+ 
+  char* code[6] = { "FFFFF", "0FFFF", "F0FFF", "FF0FF", "FFF0F", "FFFF0" };
+
+  for (int i = 0; i<5; i++) {
+    if (sGroup[i] == '0') {
+      sReturn[nReturnPos++] = 'F';
+    } else if (sGroup[i] == '1') {
+      sReturn[nReturnPos++] = '0';
+    } else {
+      return "\0";
+    }
+  }
+
+  for (int i = 0; i<5; i++) {
+    if (nChannelCode[i] == '0') {
+      sReturn[nReturnPos++] = 'F';
+    } else if (nChannelCode[i] == '1') {
+      sReturn[nReturnPos++] = '0';
+    } else {
+      return "\0";
+    }
+  }
+
+  if (bStatus) {
+    sReturn[nReturnPos++] = '0';
+    sReturn[nReturnPos++] = 'F';
+  } else {
+    sReturn[nReturnPos++] = 'F';
+    sReturn[nReturnPos++] = '0';
+  }
+
+  sReturn[nReturnPos] = '\0';
   return sReturn;
 }
 

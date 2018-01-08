@@ -60,6 +60,8 @@ class RCSwitch {
     void switchOff(int nGroupNumber, int nSwitchNumber);
     void switchOn(char* sGroup, int nSwitchNumber);
     void switchOff(char* sGroup, int nSwitchNumber);
+    void switchOn(char* sGroup, char* nSwitchNumber);
+    void switchOff(char* sGroup, char* nSwitchNumber);
     void switchOn(char sFamily, int nGroup, int nDevice);
     void switchOff(char sFamily, int nGroup, int nDevice);
 
