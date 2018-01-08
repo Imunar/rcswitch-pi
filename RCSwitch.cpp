@@ -293,7 +293,7 @@ char* RCSwitch::getCodeWordA(char* sGroup, char* nChannelCode, boolean bStatus) 
     } else if (sGroup[i] == '1') {
       sReturn[nReturnPos++] = '0';
     } else {
-      return "\0";
+      return '\0';
     }
   }
 
@@ -303,7 +303,7 @@ char* RCSwitch::getCodeWordA(char* sGroup, char* nChannelCode, boolean bStatus) 
     } else if (nChannelCode[i] == '1') {
       sReturn[nReturnPos++] = '0';
     } else {
-      return "\0";
+      return '\0';
     }
   }
 
