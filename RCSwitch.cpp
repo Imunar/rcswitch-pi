@@ -286,8 +286,6 @@ char* RCSwitch::getCodeWordA(char* sGroup, int nChannelCode, boolean bStatus) {
 char* RCSwitch::getCodeWordA(char* sGroup, char* nChannelCode, boolean bStatus) {
   int nReturnPos = 0;
   static char sReturn[13];
- 
-  char* code[6] = { "FFFFF", "0FFFF", "F0FFF", "FF0FF", "FFF0F", "FFFF0" };
 
   for (int i = 0; i<5; i++) {
     if (sGroup[i] == '0') {
